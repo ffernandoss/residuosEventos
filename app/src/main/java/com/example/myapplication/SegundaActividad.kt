@@ -30,6 +30,8 @@ fun BarChartScreen() {
     var value2 by remember { mutableStateOf("") }
     var value3 by remember { mutableStateOf("") }
     var showChart by remember { mutableStateOf(false) }
+    var showErrorDialog by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -58,9 +60,30 @@ fun BarChartScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            showChart = true
+            if (value1.isEmpty() || value2.isEmpty() || value3.isEmpty()) {
+                errorMessage = "Todos los campos deben estar completos."
+                showErrorDialog = true
+            } else if (!value1.all { it.isDigit() } || !value2.all { it.isDigit() } || !value3.all { it.isDigit() }) {
+                errorMessage = "Los campos deben contener solo números."
+                showErrorDialog = true
+            } else {
+                showChart = true
+            }
         }) {
             Text("Mostrar Gráficas")
         }
+    }
+
+    if (showErrorDialog) {
+        AlertDialog(
+            onDismissRequest = { showErrorDialog = false },
+            confirmButton = {
+                Button(onClick = { showErrorDialog = false }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("Error") },
+            text = { Text(errorMessage) }
+        )
     }
 }
