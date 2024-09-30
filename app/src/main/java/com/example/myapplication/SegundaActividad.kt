@@ -26,12 +26,13 @@ class SegundaActividad : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun BarChartScreen() {
     var value1 by remember { mutableStateOf("") }
     var value2 by remember { mutableStateOf("") }
     var value3 by remember { mutableStateOf("") }
-    var showChart by remember { mutableStateOf(false) }
+    var showCharts by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var barColor by remember { mutableStateOf(Color.Blue) }
 
@@ -66,7 +67,7 @@ fun BarChartScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             try {
-                showChart = true
+                showCharts = true
                 errorMessage = null
             } catch (e: NumberFormatException) {
                 errorMessage = "Por favor, ingrese valores válidos."
@@ -78,18 +79,46 @@ fun BarChartScreen() {
         errorMessage?.let {
             Text(text = it, color = Color.Red)
         }
-        if (showChart) {
+        if (showCharts) {
             DrawBarChart(
                 values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()),
                 xLabels = listOf("valor 1", "valor 2", "Valor 3"),
                 yLabel = "Valores",
                 barColor = barColor
             )
-        }
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "FUNCION 2", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
+            BarChartScreen2(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
+            )
         }
     }
+}
+
 @Composable
-fun DrawBarChart(values: List<Float>, xLabels: List<String>, yLabel: String, barColor: Color) {
+fun BarChartScreen2(values: List<Float>) {
+    val xLabels = listOf("valor 1", "valor 2", "valor 3")
+    val yLabel = "Valores"
+    val barColor = Color.Green
+
+    DrawBarChart(
+        values = values,
+        xLabels = xLabels,
+        yLabel = yLabel,
+        barColor = barColor,
+        showValues = false
+    )
+}
+
+@Composable
+fun DrawBarChart(
+    values: List<Float>,
+    xLabels: List<String>,
+    yLabel: String,
+    barColor: Color,
+    showValues: Boolean = true
+) {
     val maxValue = values.maxOrNull() ?: 0f
     val barWidth = 50.dp
     val barSpacing = 20.dp
@@ -140,17 +169,19 @@ fun DrawBarChart(values: List<Float>, xLabels: List<String>, yLabel: String, bar
                 size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
             )
 
-            // Draw value labels above bars
-            drawContext.canvas.nativeCanvas.drawText(
-                value.toString(),
-                barX + barWidth.toPx() / 2,
-                canvasHeight - barHeight - 10,
-                android.graphics.Paint().apply {
-                    textSize = 40f
-                    color = android.graphics.Color.BLACK
-                    textAlign = android.graphics.Paint.Align.CENTER
-                }
-            )
+            if (showValues) {
+                // Draw value labels above bars
+                drawContext.canvas.nativeCanvas.drawText(
+                    value.toString(),
+                    barX + barWidth.toPx() / 2,
+                    canvasHeight - barHeight - 10,
+                    android.graphics.Paint().apply {
+                        textSize = 40f
+                        color = android.graphics.Color.BLACK
+                        textAlign = android.graphics.Paint.Align.CENTER
+                    }
+                )
+            }
 
             // Draw X axis labels with smaller text size
             drawContext.canvas.nativeCanvas.drawText(
