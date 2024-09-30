@@ -104,6 +104,12 @@ fun BarChartScreen() {
             PieChartScreen(
                 values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
             )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "FUNCION 5", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
+            CircleChartScreen(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
+            )
         }
     }
 }
@@ -141,6 +147,15 @@ fun LineChartScreen(values: List<Float>) {
 fun PieChartScreen(values: List<Float>) {
     val colors = listOf(Color.Red, Color.Green, Color.Blue)
     DrawPieChart(
+        values = values,
+        colors = colors
+    )
+}
+
+@Composable
+fun CircleChartScreen(values: List<Float>) {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+    DrawDonutChart(
         values = values,
         colors = colors
     )
@@ -342,5 +357,38 @@ fun DrawPieChart(
             )
             startAngle += sweepAngle
         }
+    }
+}
+
+@Composable
+fun DrawDonutChart(
+    values: List<Float>,
+    colors: List<Color>
+) {
+    val total = values.sum()
+    var startAngle = 0f
+    val holeRadius = 100f // Adjust this value to change the size of the hole
+
+    Canvas(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+    ) {
+        values.forEachIndexed { index, value ->
+            val sweepAngle = (value / total) * 360f
+            drawArc(
+                color = colors[index % colors.size],
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = true
+            )
+            startAngle += sweepAngle
+        }
+
+        // Draw the hole in the center
+        drawCircle(
+            color = Color.White,
+            radius = holeRadius,
+            center = center
+        )
     }
 }
