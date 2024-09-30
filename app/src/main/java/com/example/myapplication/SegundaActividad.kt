@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,6 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -23,15 +26,14 @@ class SegundaActividad : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun BarChartScreen() {
     var value1 by remember { mutableStateOf("") }
     var value2 by remember { mutableStateOf("") }
     var value3 by remember { mutableStateOf("") }
     var showChart by remember { mutableStateOf(false) }
-    var showErrorDialog by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf("") }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    var barColor by remember { mutableStateOf(Color.Blue) }
 
     Column(
         modifier = Modifier
@@ -41,6 +43,9 @@ fun BarChartScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Section for Function 1
+        Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(16.dp))
         TextField(
             value = value1,
             onValueChange = { value1 = it },
@@ -60,30 +65,104 @@ fun BarChartScreen() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            if (value1.isEmpty() || value2.isEmpty() || value3.isEmpty()) {
-                errorMessage = "Todos los campos deben estar completos."
-                showErrorDialog = true
-            } else if (!value1.all { it.isDigit() } || !value2.all { it.isDigit() } || !value3.all { it.isDigit() }) {
-                errorMessage = "Los campos deben contener solo números."
-                showErrorDialog = true
-            } else {
+            try {
                 showChart = true
+                errorMessage = null
+            } catch (e: NumberFormatException) {
+                errorMessage = "Por favor, ingrese valores válidos."
             }
         }) {
-            Text("Mostrar Gráficas")
+            Text("Mostrar Diagramas de Barras")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        errorMessage?.let {
+            Text(text = it, color = Color.Red)
+        }
+        if (showChart) {
+            DrawBarChart(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()),
+                xLabels = listOf("valor 1", "valor 2", "Valor 3"),
+                yLabel = "Valores",
+                barColor = barColor
+            )
+        }
         }
     }
+@Composable
+fun DrawBarChart(values: List<Float>, xLabels: List<String>, yLabel: String, barColor: Color) {
+    val maxValue = values.maxOrNull() ?: 0f
+    val barWidth = 50.dp
+    val barSpacing = 20.dp
+    val axisColor = Color.Black
+    val axisStrokeWidth = 4f
 
-    if (showErrorDialog) {
-        AlertDialog(
-            onDismissRequest = { showErrorDialog = false },
-            confirmButton = {
-                Button(onClick = { showErrorDialog = false }) {
-                    Text("OK")
-                }
-            },
-            title = { Text("Error") },
-            text = { Text(errorMessage) }
+    Canvas(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+    ) {
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+        val barHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
+
+        // Draw Y axis
+        drawLine(
+            color = axisColor,
+            start = androidx.compose.ui.geometry.Offset(0f, 0f),
+            end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
+            strokeWidth = axisStrokeWidth
         )
+
+        // Draw X axis
+        drawLine(
+            color = axisColor,
+            start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
+            end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
+            strokeWidth = axisStrokeWidth
+        )
+
+        // Draw Y axis label
+        drawContext.canvas.nativeCanvas.drawText(
+            yLabel,
+            10f,
+            20f,
+            android.graphics.Paint().apply {
+                textSize = 40f
+                color = android.graphics.Color.BLACK
+            }
+        )
+
+        values.forEachIndexed { index, value ->
+            val barHeight = value * barHeightFactor
+            val barX = index * (barWidth.toPx() + barSpacing.toPx())
+            drawRect(
+                color = barColor,
+                topLeft = androidx.compose.ui.geometry.Offset(barX, canvasHeight - barHeight),
+                size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
+            )
+
+            // Draw value labels above bars
+            drawContext.canvas.nativeCanvas.drawText(
+                value.toString(),
+                barX + barWidth.toPx() / 2,
+                canvasHeight - barHeight - 10,
+                android.graphics.Paint().apply {
+                    textSize = 40f
+                    color = android.graphics.Color.BLACK
+                    textAlign = android.graphics.Paint.Align.CENTER
+                }
+            )
+
+            // Draw X axis labels with smaller text size
+            drawContext.canvas.nativeCanvas.drawText(
+                xLabels[index],
+                barX + barWidth.toPx() / 2,
+                canvasHeight + 40,
+                android.graphics.Paint().apply {
+                    textSize = 40f
+                    color = android.graphics.Color.BLACK
+                    textAlign = android.graphics.Paint.Align.CENTER
+                }
+            )
+        }
     }
 }
