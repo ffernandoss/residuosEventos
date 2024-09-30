@@ -33,6 +33,34 @@ fun BarChartScreen() {
     var showCharts by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var selectedOption by remember { mutableStateOf("") }
+
+    // Colors for each function
+    var color1Func1 by remember { mutableStateOf(Color.Blue) }
+    var color2Func1 by remember { mutableStateOf(Color.Green) }
+    var color3Func1 by remember { mutableStateOf(Color.Red) }
+
+    var color1Func2 by remember { mutableStateOf(Color.Blue) }
+    var color2Func2 by remember { mutableStateOf(Color.Green) }
+    var color3Func2 by remember { mutableStateOf(Color.Red) }
+
+    var color1Func3 by remember { mutableStateOf(Color.Blue) }
+
+    var color1Func4 by remember { mutableStateOf(Color.Blue) }
+    var color2Func4 by remember { mutableStateOf(Color.Green) }
+    var color3Func4 by remember { mutableStateOf(Color.Red) }
+
+    var color1Func5 by remember { mutableStateOf(Color.Blue) }
+    var color2Func5 by remember { mutableStateOf(Color.Green) }
+    var color3Func5 by remember { mutableStateOf(Color.Red) }
+
+    var color1Func6 by remember { mutableStateOf(Color.Blue) }
+    var color2Func6 by remember { mutableStateOf(Color.Green) }
+    var color3Func6 by remember { mutableStateOf(Color.Red) }
+
+    var color1Func7 by remember { mutableStateOf(Color.Blue) }
+    var color2Func7 by remember { mutableStateOf(Color.Green) }
+    var color3Func7 by remember { mutableStateOf(Color.Red) }
+
     val options = listOf("Función 1", "Función 2", "Función 3", "Función 4", "Función 5", "Función 6", "Función 7")
 
     Column(
@@ -87,60 +115,109 @@ fun BarChartScreen() {
         if (showCharts) {
             // Mostrar todas las funciones
             Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
-            DrawBarChart(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), xLabels = listOf("valor 1", "valor 2", "valor 3"), yLabel = "Valores", barColor = Color.Blue)
+            ColorPicker(selectedColor = color1Func1) { color1Func1 = it }
+            ColorPicker(selectedColor = color2Func1) { color2Func1 = it }
+            ColorPicker(selectedColor = color3Func1) { color3Func1 = it }
+            DrawBarChart(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()),
+                xLabels = listOf("valor 1", "valor 2", "valor 3"),
+                yLabel = "Valores",
+                barColors = listOf(color1Func1, color2Func1, color3Func1)
+            )
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 2", style = MaterialTheme.typography.headlineMedium)
-            BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func2) { color1Func2 = it }
+            ColorPicker(selectedColor = color2Func2) { color2Func2 = it }
+            ColorPicker(selectedColor = color3Func2) { color3Func2 = it }
+            BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func2, color2Func2, color3Func2))
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 3", style = MaterialTheme.typography.headlineMedium)
-            LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func3) { color1Func3 = it }
+            LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func3, color1Func3, color1Func3))
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 4", style = MaterialTheme.typography.headlineMedium)
-            PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func4) { color1Func4 = it }
+            ColorPicker(selectedColor = color2Func4) { color2Func4 = it }
+            ColorPicker(selectedColor = color3Func4) { color3Func4 = it }
+            PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func4, color2Func4, color3Func4))
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 5", style = MaterialTheme.typography.headlineMedium)
-            CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func5) { color1Func5 = it }
+            ColorPicker(selectedColor = color2Func5) { color2Func5 = it }
+            ColorPicker(selectedColor = color3Func5) { color3Func5 = it }
+            CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func5, color2Func5, color3Func5))
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 6", style = MaterialTheme.typography.headlineMedium)
-            HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func6) { color1Func6 = it }
+            ColorPicker(selectedColor = color2Func6) { color2Func6 = it }
+            ColorPicker(selectedColor = color3Func6) { color3Func6 = it }
+            HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func6, color2Func6, color3Func6))
             Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 7", style = MaterialTheme.typography.headlineMedium)
-            AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            ColorPicker(selectedColor = color1Func7) { color1Func7 = it }
+            ColorPicker(selectedColor = color2Func7) { color2Func7 = it }
+            ColorPicker(selectedColor = color3Func7) { color3Func7 = it }
+            AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func7, color2Func7, color3Func7))
         } else {
             // Mostrar solo la función seleccionada
             when (selectedOption) {
                 "Función 1" -> {
                     Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
-                    DrawBarChart(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), xLabels = listOf("valor 1", "valor 2", "valor 3"), yLabel = "Valores", barColor = Color.Blue)
+                    ColorPicker(selectedColor = color1Func1) { color1Func1 = it }
+                    ColorPicker(selectedColor = color2Func1) { color2Func1 = it }
+                    ColorPicker(selectedColor = color3Func1) { color3Func1 = it }
+                    DrawBarChart(
+                        values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()),
+                        xLabels = listOf("valor 1", "valor 2", "valor 3"),
+                        yLabel = "Valores",
+                        barColors = listOf(color1Func1, color2Func1, color3Func1)
+                    )
                 }
                 "Función 2" -> {
                     Text(text = "FUNCION 2", style = MaterialTheme.typography.headlineMedium)
-                    BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func2) { color1Func2 = it }
+                    ColorPicker(selectedColor = color2Func2) { color2Func2 = it }
+                    ColorPicker(selectedColor = color3Func2) { color3Func2 = it }
+                    BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func2, color2Func2, color3Func2))
                 }
                 "Función 3" -> {
                     Text(text = "FUNCION 3", style = MaterialTheme.typography.headlineMedium)
-                    LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func3) { color1Func3 = it }
+                    LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func3, color1Func3, color1Func3))
                 }
                 "Función 4" -> {
                     Text(text = "FUNCION 4", style = MaterialTheme.typography.headlineMedium)
-                    PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func4) { color1Func4 = it }
+                    ColorPicker(selectedColor = color2Func4) { color2Func4 = it }
+                    ColorPicker(selectedColor = color3Func4) { color3Func4 = it }
+                    PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func4, color2Func4, color3Func4))
                 }
                 "Función 5" -> {
                     Text(text = "FUNCION 5", style = MaterialTheme.typography.headlineMedium)
-                    CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func5) { color1Func5 = it }
+                    ColorPicker(selectedColor = color2Func5) { color2Func5 = it }
+                    ColorPicker(selectedColor = color3Func5) { color3Func5 = it }
+                    CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func5, color2Func5, color3Func5))
                 }
                 "Función 6" -> {
                     Text(text = "FUNCION 6", style = MaterialTheme.typography.headlineMedium)
-                    HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func6) { color1Func6 = it }
+                    ColorPicker(selectedColor = color2Func6) { color2Func6 = it }
+                    ColorPicker(selectedColor = color3Func6) { color3Func6 = it }
+                    HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func6, color2Func6, color3Func6))
                 }
                 "Función 7" -> {
                     Text(text = "FUNCION 7", style = MaterialTheme.typography.headlineMedium)
-                    AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                    ColorPicker(selectedColor = color1Func7) { color1Func7 = it }
+                    ColorPicker(selectedColor = color2Func7) { color2Func7 = it }
+                    ColorPicker(selectedColor = color3Func7) { color3Func7 = it }
+                    AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), colors = listOf(color1Func7, color2Func7, color3Func7))
                 }
             }
         }
     }
 }
+
 @Composable
 fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSelected: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
@@ -167,37 +244,34 @@ fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSe
 }
 
 @Composable
-fun BarChartScreen2(values: List<Float>) {
+fun BarChartScreen2(values: List<Float>, colors: List<Color>) {
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
     val yLabel = "Valores"
-    val barColor = Color.Green
 
     DrawBarChart(
         values = values,
         xLabels = xLabels,
         yLabel = yLabel,
-        barColor = barColor,
+        barColors = colors,
         showValues = false
     )
 }
 
 @Composable
-fun LineChartScreen(values: List<Float>) {
+fun LineChartScreen(values: List<Float>, colors: List<Color>) {
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
     val yLabel = "Valores"
-    val lineColor = Color.Red
 
     DrawLineChart(
         values = values,
         xLabels = xLabels,
         yLabel = yLabel,
-        lineColor = lineColor
+        lineColors = colors
     )
 }
 
 @Composable
-fun PieChartScreen(values: List<Float>) {
-    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+fun PieChartScreen(values: List<Float>, colors: List<Color>) {
     DrawPieChart(
         values = values,
         colors = colors
@@ -205,8 +279,7 @@ fun PieChartScreen(values: List<Float>) {
 }
 
 @Composable
-fun CircleChartScreen(values: List<Float>) {
-    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+fun CircleChartScreen(values: List<Float>, colors: List<Color>) {
     DrawDonutChart(
         values = values,
         colors = colors
@@ -214,8 +287,7 @@ fun CircleChartScreen(values: List<Float>) {
 }
 
 @Composable
-fun HalfCircleChartScreen(values: List<Float>) {
-    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+fun HalfCircleChartScreen(values: List<Float>, colors: List<Color>) {
     DrawHalfCircleChart(
         values = values,
         colors = colors
@@ -223,17 +295,14 @@ fun HalfCircleChartScreen(values: List<Float>) {
 }
 
 @Composable
-fun AreaChartScreen(values: List<Float>) {
+fun AreaChartScreen(values: List<Float>, colors: List<Color>) {
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
     val yLabel = "Valores"
-    val areaColor = Color.Cyan
 
     DrawAreaChart(
         values = values,
         xLabels = xLabels,
         yLabel = yLabel,
-        areaColor = areaColor
+        areaColors = colors
     )
 }
-
-

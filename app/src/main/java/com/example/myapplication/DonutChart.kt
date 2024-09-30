@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -15,7 +16,6 @@ fun DrawDonutChart(
 ) {
     val total = values.sum()
     var startAngle = 0f
-    val holeRadius = 100f // Adjust this value to change the size of the hole
 
     Canvas(modifier = Modifier
         .fillMaxWidth()
@@ -24,19 +24,13 @@ fun DrawDonutChart(
         values.forEachIndexed { index, value ->
             val sweepAngle = (value / total) * 360f
             drawArc(
-                color = colors[index % colors.size],
+                color = colors[index],
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
-                useCenter = true
+                useCenter = false,
+                style = Stroke(width = 50.dp.toPx())
             )
             startAngle += sweepAngle
         }
-
-        // Draw the hole in the center
-        drawCircle(
-            color = Color.White,
-            radius = holeRadius,
-            center = center
-        )
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -14,19 +15,20 @@ fun DrawHalfCircleChart(
     colors: List<Color>
 ) {
     val total = values.sum()
-    var startAngle = 0f
+    var startAngle = 180f
 
     Canvas(modifier = Modifier
         .fillMaxWidth()
         .height(300.dp)
     ) {
         values.forEachIndexed { index, value ->
-            val sweepAngle = (value / total) * 180f // Only 180 degrees
+            val sweepAngle = (value / total) * 180f
             drawArc(
-                color = colors[index % colors.size],
+                color = colors[index],
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
-                useCenter = true
+                useCenter = false,
+                style = Stroke(width = 50.dp.toPx())
             )
             startAngle += sweepAngle
         }

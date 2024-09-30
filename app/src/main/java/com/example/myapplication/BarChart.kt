@@ -1,7 +1,6 @@
 package com.example.myapplication
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
@@ -10,13 +9,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun DrawBarChart(
     values: List<Float>,
     xLabels: List<String>,
     yLabel: String,
-    barColor: Color,
+    barColors: List<Color>,
     showValues: Boolean = true
 ) {
     val maxValue = values.maxOrNull() ?: 0f
@@ -64,7 +62,7 @@ fun DrawBarChart(
             val barHeight = value * barHeightFactor
             val barX = index * (barWidth.toPx() + barSpacing.toPx())
             drawRect(
-                color = barColor,
+                color = barColors[index],
                 topLeft = androidx.compose.ui.geometry.Offset(barX, canvasHeight - barHeight),
                 size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
             )

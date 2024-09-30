@@ -23,7 +23,7 @@ fun DrawPieChart(
         values.forEachIndexed { index, value ->
             val sweepAngle = (value / total) * 360f
             drawArc(
-                color = colors[index % colors.size],
+                color = colors[index],
                 startAngle = startAngle,
                 sweepAngle = sweepAngle,
                 useCenter = true

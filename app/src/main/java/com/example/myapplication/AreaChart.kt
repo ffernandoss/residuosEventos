@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
@@ -15,11 +14,10 @@ fun DrawAreaChart(
     values: List<Float>,
     xLabels: List<String>,
     yLabel: String,
-    areaColor: Color
+    areaColors: List<Color>
 ) {
     val maxValue = values.maxOrNull() ?: 0f
-    val axisColor = Color.Black
-    val axisStrokeWidth = 4f
+    val areaHeightFactor = 300.dp / (maxValue + 10) // Adding some padding
 
     Canvas(modifier = Modifier
         .fillMaxWidth()
@@ -27,23 +25,21 @@ fun DrawAreaChart(
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
-        val pointSpacing = canvasWidth / (values.size - 1)
-        val pointHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
 
         // Draw Y axis
         drawLine(
-            color = axisColor,
+            color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, 0f),
             end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            strokeWidth = axisStrokeWidth
+            strokeWidth = 4f
         )
 
         // Draw X axis
         drawLine(
-            color = axisColor,
+            color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
             end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
-            strokeWidth = axisStrokeWidth
+            strokeWidth = 4f
         )
 
         // Draw Y axis label
@@ -57,28 +53,20 @@ fun DrawAreaChart(
             }
         )
 
-        // Draw area
-        val path = Path().apply {
-            moveTo(0f, canvasHeight)
-            values.forEachIndexed { index, value ->
-                val x = index * pointSpacing
-                val y = canvasHeight - (value * pointHeightFactor)
-                lineTo(x, y)
-            }
-            lineTo(canvasWidth, canvasHeight)
-            close()
-        }
-        drawPath(
-            path = path,
-            color = areaColor
-        )
+        values.forEachIndexed { index, value ->
+            val areaHeight = value * areaHeightFactor.toPx()
+            val areaX = index * (canvasWidth / values.size)
 
-        // Draw X axis labels with smaller text size
-        values.forEachIndexed { index, _ ->
-            val x = index * pointSpacing
+            drawRect(
+                color = areaColors[index],
+                topLeft = androidx.compose.ui.geometry.Offset(areaX, canvasHeight - areaHeight),
+                size = androidx.compose.ui.geometry.Size(canvasWidth / values.size, areaHeight)
+            )
+
+            // Draw X axis labels with smaller text size
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
-                x,
+                areaX + (canvasWidth / values.size) / 2,
                 canvasHeight + 40,
                 android.graphics.Paint().apply {
                     textSize = 40f
