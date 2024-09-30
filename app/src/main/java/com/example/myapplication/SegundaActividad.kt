@@ -34,7 +34,8 @@ fun BarChartScreen() {
     var value3 by remember { mutableStateOf("") }
     var showCharts by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    var barColor by remember { mutableStateOf(Color.Blue) }
+    var selectedOption by remember { mutableStateOf("") }
+    val options = listOf("Función 1", "Función 2", "Función 3", "Función 4", "Función 5", "Función 6", "Función 7")
 
     Column(
         modifier = Modifier
@@ -44,7 +45,6 @@ fun BarChartScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Section for Function 1
         Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         TextField(
@@ -68,64 +68,106 @@ fun BarChartScreen() {
         Button(onClick = {
             try {
                 showCharts = true
+                selectedOption = ""
                 errorMessage = null
             } catch (e: NumberFormatException) {
                 errorMessage = "Por favor, ingrese valores válidos."
             }
         }) {
-            Text("Mostrar Diagramas de Barras")
+            Text("Mostrar TODAS LAS FUNCIONES")
         }
         Spacer(modifier = Modifier.height(16.dp))
         errorMessage?.let {
             Text(text = it, color = Color.Red)
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        DropdownMenuButton(options = options, selectedOption = selectedOption) { option ->
+            selectedOption = option
+            showCharts = false
+        }
+        Spacer(modifier = Modifier.height(16.dp))
         if (showCharts) {
-            DrawBarChart(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()),
-                xLabels = listOf("valor 1", "valor 2", "Valor 3"),
-                yLabel = "Valores",
-                barColor = barColor
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            // Mostrar todas las funciones
+            Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
+            DrawBarChart(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), xLabels = listOf("valor 1", "valor 2", "valor 3"), yLabel = "Valores", barColor = Color.Blue)
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 2", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            BarChartScreen2(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 3", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            LineChartScreen(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 4", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            PieChartScreen(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 5", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            CircleChartScreen(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 6", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            HalfCircleChartScreen(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+            Spacer(modifier = Modifier.height(25.dp))
             Text(text = "FUNCION 7", style = MaterialTheme.typography.headlineMedium)
-            Spacer(modifier = Modifier.height(16.dp))
-            AreaChartScreen(
-                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
-            )
+            AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+        } else {
+            // Mostrar solo la función seleccionada
+            when (selectedOption) {
+                "Función 1" -> {
+                    Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
+                    DrawBarChart(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()), xLabels = listOf("valor 1", "valor 2", "valor 3"), yLabel = "Valores", barColor = Color.Blue)
+                }
+                "Función 2" -> {
+                    Text(text = "FUNCION 2", style = MaterialTheme.typography.headlineMedium)
+                    BarChartScreen2(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+                "Función 3" -> {
+                    Text(text = "FUNCION 3", style = MaterialTheme.typography.headlineMedium)
+                    LineChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+                "Función 4" -> {
+                    Text(text = "FUNCION 4", style = MaterialTheme.typography.headlineMedium)
+                    PieChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+                "Función 5" -> {
+                    Text(text = "FUNCION 5", style = MaterialTheme.typography.headlineMedium)
+                    CircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+                "Función 6" -> {
+                    Text(text = "FUNCION 6", style = MaterialTheme.typography.headlineMedium)
+                    HalfCircleChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+                "Función 7" -> {
+                    Text(text = "FUNCION 7", style = MaterialTheme.typography.headlineMedium)
+                    AreaChartScreen(values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat()))
+                }
+            }
         }
     }
 }
 
+@Composable
+fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSelected: (String) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box {
+        Button(onClick = { expanded = true }) {
+            Text(text = "Elegir gráfico")
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = { Text(text = option) },
+                    onClick = {
+                        onOptionSelected(option)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
 @Composable
 fun BarChartScreen2(values: List<Float>) {
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
