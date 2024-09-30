@@ -33,6 +33,7 @@ fun BarChartScreen() {
     var showCharts by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
     var selectedOption by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
 
     // Colors for each function
     var color1Func1 by remember { mutableStateOf(Color.Blue) }
@@ -93,11 +94,20 @@ fun BarChartScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
             try {
-                showCharts = true
-                selectedOption = ""
-                errorMessage = null
+                if (value1.isEmpty() || value2.isEmpty() || value3.isEmpty()) {
+                    errorMessage = "Todos los campos deben estar llenos."
+                    showDialog = true
+                } else {
+                    value1.toFloat()
+                    value2.toFloat()
+                    value3.toFloat()
+                    showCharts = true
+                    selectedOption = ""
+                    errorMessage = null
+                }
             } catch (e: NumberFormatException) {
-                errorMessage = "Por favor, ingrese valores válidos."
+                errorMessage = "Por favor, ingrese valores numéricos válidos."
+                showDialog = true
             }
         }) {
             Text("Mostrar TODAS LAS FUNCIONES")
@@ -215,6 +225,19 @@ fun BarChartScreen() {
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            confirmButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("Error") },
+            text = { Text(errorMessage ?: "") }
+        )
     }
 }
 
