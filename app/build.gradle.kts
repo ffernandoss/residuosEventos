@@ -51,6 +51,10 @@ android {
 
 dependencies {
 
+
+        androidTestImplementation ("androidx.compose.ui:ui-test-junit4:<version>")
+        debugImplementation ("androidx.compose.ui:ui-test-manifest:<version>")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
