@@ -1,27 +1,23 @@
 package com.example.myapplication
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
-
 @Composable
-fun DrawBarChart(
+fun DrawAreaChart(
     values: List<Float>,
     xLabels: List<String>,
     yLabel: String,
-    barColor: Color,
-    showValues: Boolean = true
+    areaColor: Color
 ) {
     val maxValue = values.maxOrNull() ?: 0f
-    val barWidth = 50.dp
-    val barSpacing = 20.dp
     val axisColor = Color.Black
     val axisStrokeWidth = 4f
 
@@ -31,7 +27,8 @@ fun DrawBarChart(
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
-        val barHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
+        val pointSpacing = canvasWidth / (values.size - 1)
+        val pointHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
 
         // Draw Y axis
         drawLine(
@@ -60,33 +57,28 @@ fun DrawBarChart(
             }
         )
 
-        values.forEachIndexed { index, value ->
-            val barHeight = value * barHeightFactor
-            val barX = index * (barWidth.toPx() + barSpacing.toPx())
-            drawRect(
-                color = barColor,
-                topLeft = androidx.compose.ui.geometry.Offset(barX, canvasHeight - barHeight),
-                size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
-            )
-
-            if (showValues) {
-                // Draw value labels above bars
-                drawContext.canvas.nativeCanvas.drawText(
-                    value.toString(),
-                    barX + barWidth.toPx() / 2,
-                    canvasHeight - barHeight - 10,
-                    android.graphics.Paint().apply {
-                        textSize = 40f
-                        color = android.graphics.Color.BLACK
-                        textAlign = android.graphics.Paint.Align.CENTER
-                    }
-                )
+        // Draw area
+        val path = Path().apply {
+            moveTo(0f, canvasHeight)
+            values.forEachIndexed { index, value ->
+                val x = index * pointSpacing
+                val y = canvasHeight - (value * pointHeightFactor)
+                lineTo(x, y)
             }
+            lineTo(canvasWidth, canvasHeight)
+            close()
+        }
+        drawPath(
+            path = path,
+            color = areaColor
+        )
 
-            // Draw X axis labels with smaller text size
+        // Draw X axis labels with smaller text size
+        values.forEachIndexed { index, _ ->
+            val x = index * pointSpacing
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
-                barX + barWidth.toPx() / 2,
+                x,
                 canvasHeight + 40,
                 android.graphics.Paint().apply {
                     textSize = 40f

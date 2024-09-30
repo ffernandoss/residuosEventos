@@ -3,7 +3,6 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,7 +11,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
@@ -143,7 +141,6 @@ fun BarChartScreen() {
         }
     }
 }
-
 @Composable
 fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSelected: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
@@ -168,6 +165,7 @@ fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSe
         }
     }
 }
+
 @Composable
 fun BarChartScreen2(values: List<Float>) {
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
@@ -239,252 +237,3 @@ fun AreaChartScreen(values: List<Float>) {
 }
 
 
-@Composable
-fun DrawLineChart(
-    values: List<Float>,
-    xLabels: List<String>,
-    yLabel: String,
-    lineColor: Color
-) {
-    val maxValue = values.maxOrNull() ?: 0f
-    val axisColor = Color.Black
-    val axisStrokeWidth = 4f
-    val pointRadius = 8f
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp)
-    ) {
-        val canvasWidth = size.width
-        val canvasHeight = size.height
-        val pointSpacing = canvasWidth / (values.size - 1)
-        val pointHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
-
-        // Draw Y axis
-        drawLine(
-            color = axisColor,
-            start = androidx.compose.ui.geometry.Offset(0f, 0f),
-            end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // Draw X axis
-        drawLine(
-            color = axisColor,
-            start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // Draw Y axis label
-        drawContext.canvas.nativeCanvas.drawText(
-            yLabel,
-            10f,
-            20f,
-            android.graphics.Paint().apply {
-                textSize = 40f
-                color = android.graphics.Color.BLACK
-            }
-        )
-
-        // Draw lines between points and points themselves
-        values.forEachIndexed { index, value ->
-            val currentX = index * pointSpacing
-            val currentY = canvasHeight - (value * pointHeightFactor)
-
-            if (index < values.size - 1) {
-                val nextX = (index + 1) * pointSpacing
-                val nextY = canvasHeight - (values[index + 1] * pointHeightFactor)
-
-                drawLine(
-                    color = lineColor,
-                    start = androidx.compose.ui.geometry.Offset(currentX, currentY),
-                    end = androidx.compose.ui.geometry.Offset(nextX, nextY),
-                    strokeWidth = axisStrokeWidth
-                )
-            }
-
-            // Draw point
-            drawCircle(
-                color = lineColor,
-                radius = pointRadius,
-                center = androidx.compose.ui.geometry.Offset(currentX, currentY)
-            )
-
-            // Draw X axis labels with smaller text size
-            drawContext.canvas.nativeCanvas.drawText(
-                xLabels[index],
-                currentX,
-                canvasHeight + 40,
-                android.graphics.Paint().apply {
-                    textSize = 40f
-                    color = android.graphics.Color.BLACK
-                    textAlign = android.graphics.Paint.Align.CENTER
-                }
-            )
-        }
-    }
-}
-
-@Composable
-fun DrawPieChart(
-    values: List<Float>,
-    colors: List<Color>
-) {
-    val total = values.sum()
-    var startAngle = 0f
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp)
-    ) {
-        values.forEachIndexed { index, value ->
-            val sweepAngle = (value / total) * 360f
-            drawArc(
-                color = colors[index % colors.size],
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = true
-            )
-            startAngle += sweepAngle
-        }
-    }
-}
-
-@Composable
-fun DrawDonutChart(
-    values: List<Float>,
-    colors: List<Color>
-) {
-    val total = values.sum()
-    var startAngle = 0f
-    val holeRadius = 100f // Adjust this value to change the size of the hole
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp)
-    ) {
-        values.forEachIndexed { index, value ->
-            val sweepAngle = (value / total) * 360f
-            drawArc(
-                color = colors[index % colors.size],
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = true
-            )
-            startAngle += sweepAngle
-        }
-
-        // Draw the hole in the center
-        drawCircle(
-            color = Color.White,
-            radius = holeRadius,
-            center = center
-        )
-    }
-}
-
-@Composable
-fun DrawHalfCircleChart(
-    values: List<Float>,
-    colors: List<Color>
-) {
-    val total = values.sum()
-    var startAngle = 0f
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp)
-    ) {
-        values.forEachIndexed { index, value ->
-            val sweepAngle = (value / total) * 180f // Only 180 degrees
-            drawArc(
-                color = colors[index % colors.size],
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = true
-            )
-            startAngle += sweepAngle
-        }
-    }
-}
-
-@Composable
-fun DrawAreaChart(
-    values: List<Float>,
-    xLabels: List<String>,
-    yLabel: String,
-    areaColor: Color
-) {
-    val maxValue = values.maxOrNull() ?: 0f
-    val axisColor = Color.Black
-    val axisStrokeWidth = 4f
-
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp)
-    ) {
-        val canvasWidth = size.width
-        val canvasHeight = size.height
-        val pointSpacing = canvasWidth / (values.size - 1)
-        val pointHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
-
-        // Draw Y axis
-        drawLine(
-            color = axisColor,
-            start = androidx.compose.ui.geometry.Offset(0f, 0f),
-            end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // Draw X axis
-        drawLine(
-            color = axisColor,
-            start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
-            strokeWidth = axisStrokeWidth
-        )
-
-        // Draw Y axis label
-        drawContext.canvas.nativeCanvas.drawText(
-            yLabel,
-            10f,
-            20f,
-            android.graphics.Paint().apply {
-                textSize = 40f
-                color = android.graphics.Color.BLACK
-            }
-        )
-
-        // Draw area
-        val path = androidx.compose.ui.graphics.Path().apply {
-            moveTo(0f, canvasHeight)
-            values.forEachIndexed { index, value ->
-                val x = index * pointSpacing
-                val y = canvasHeight - (value * pointHeightFactor)
-                lineTo(x, y)
-            }
-            lineTo(canvasWidth, canvasHeight)
-            close()
-        }
-        drawPath(
-            path = path,
-            color = areaColor
-        )
-
-        // Draw X axis labels with smaller text size
-        values.forEachIndexed { index, _ ->
-            val x = index * pointSpacing
-            drawContext.canvas.nativeCanvas.drawText(
-                xLabels[index],
-                x,
-                canvasHeight + 40,
-                android.graphics.Paint().apply {
-                    textSize = 40f
-                    color = android.graphics.Color.BLACK
-                    textAlign = android.graphics.Paint.Align.CENTER
-                }
-            )
-        }
-    }
-}
