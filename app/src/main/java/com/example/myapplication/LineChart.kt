@@ -17,9 +17,12 @@ fun DrawLineChart(
     yLabel: String,
     lineColors: List<Color>
 ) {
+    // Obtener el valor máximo de la lista de valores
     val maxValue = values.maxOrNull() ?: 0f
-    val lineHeightFactor = 300.dp / (maxValue + 10) // Adding some padding
+    // Factor de altura de la línea, añadiendo un poco de padding
+    val lineHeightFactor = 300.dp / (maxValue + 10)
 
+    // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
         .fillMaxWidth()
         .height(300.dp)
@@ -27,7 +30,7 @@ fun DrawLineChart(
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        // Draw Y axis
+        // Dibujar el eje Y
         drawLine(
             color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, 0f),
@@ -35,7 +38,7 @@ fun DrawLineChart(
             strokeWidth = 4f
         )
 
-        // Draw X axis
+        // Dibujar el eje X
         drawLine(
             color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
@@ -43,7 +46,7 @@ fun DrawLineChart(
             strokeWidth = 4f
         )
 
-        // Draw Y axis label
+        // Dibujar la etiqueta del eje Y
         drawContext.canvas.nativeCanvas.drawText(
             yLabel,
             10f,
@@ -54,6 +57,7 @@ fun DrawLineChart(
             }
         )
 
+        // Crear el camino de la línea
         val path = Path().apply {
             values.forEachIndexed { index, value ->
                 val lineHeight = value * lineHeightFactor.toPx()
@@ -66,17 +70,18 @@ fun DrawLineChart(
             }
         }
 
+        // Dibujar el camino de la línea
         drawPath(
             path = path,
             color = lineColors.firstOrNull() ?: Color.Black,
             style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4.dp.toPx())
         )
 
+        // Dibujar las etiquetas del eje X con un tamaño de texto más pequeño
         values.forEachIndexed { index, value ->
             val lineHeight = value * lineHeightFactor.toPx()
             val lineX = index * (canvasWidth / values.size)
 
-            // Draw X axis labels with smaller text size
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
                 lineX + (canvasWidth / values.size) / 2,

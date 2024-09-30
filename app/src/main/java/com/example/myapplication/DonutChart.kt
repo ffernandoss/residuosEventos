@@ -14,22 +14,29 @@ fun DrawDonutChart(
     values: List<Float>,
     colors: List<Color>
 ) {
+    // Calcular el total de los valores
     val total = values.sum()
+    // Ángulo inicial para el primer segmento del gráfico
     var startAngle = 0f
 
+    // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
         .fillMaxWidth()
         .height(300.dp)
     ) {
+        // Iterar sobre los valores y sus índices
         values.forEachIndexed { index, value ->
+            // Calcular el ángulo de barrido para cada segmento
             val sweepAngle = (value / total) * 360f
+            // Dibujar el arco para el segmento actual
             drawArc(
-                color = colors[index],
-                startAngle = startAngle,
-                sweepAngle = sweepAngle,
-                useCenter = false,
-                style = Stroke(width = 50.dp.toPx())
+                color = colors[index], // Color del segmento
+                startAngle = startAngle, // Ángulo inicial del segmento
+                sweepAngle = sweepAngle, // Ángulo de barrido del segmento
+                useCenter = false, // No usar el centro del círculo
+                style = Stroke(width = 50.dp.toPx()) // Estilo del arco con un grosor de 50 dp
             )
+            // Actualizar el ángulo inicial para el siguiente segmento
             startAngle += sweepAngle
         }
     }

@@ -14,9 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
+// Actividad secundaria de la aplicación
 class SegundaActividad : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Establecer el contenido de la actividad usando Jetpack Compose
         setContent {
             MyApplicationTheme {
                 BarChartScreen()
@@ -25,17 +27,23 @@ class SegundaActividad : ComponentActivity() {
     }
 }
 
+// Función composable que define la pantalla del gráfico de barras
 @Composable
 fun BarChartScreen() {
+    // Variables para almacenar los valores ingresados por el usuario
     var value1 by remember { mutableStateOf("") }
     var value2 by remember { mutableStateOf("") }
     var value3 by remember { mutableStateOf("") }
+    // Variable para controlar si se deben mostrar los gráficos
     var showCharts by remember { mutableStateOf(false) }
+    // Variable para almacenar mensajes de error
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    // Variable para almacenar la opción seleccionada en el menú desplegable
     var selectedOption by remember { mutableStateOf("") }
+    // Variable para controlar la visibilidad del diálogo de error
     var showDialog by remember { mutableStateOf(false) }
 
-    // Colors for each function
+    // Colores para cada función
     var color1Func1 by remember { mutableStateOf(Color.Blue) }
     var color2Func1 by remember { mutableStateOf(Color.Green) }
     var color3Func1 by remember { mutableStateOf(Color.Red) }
@@ -62,8 +70,10 @@ fun BarChartScreen() {
     var color2Func7 by remember { mutableStateOf(Color.Green) }
     var color3Func7 by remember { mutableStateOf(Color.Red) }
 
+    // Opciones para el menú desplegable
     val options = listOf("Función 1", "Función 2", "Función 3", "Función 4", "Función 5", "Función 6", "Función 7")
 
+    // Crear una columna que llena todo el tamaño de la pantalla
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,26 +82,31 @@ fun BarChartScreen() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Mostrar un texto con el título
         Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
+        // Campo de texto para ingresar el valor 1
         TextField(
             value = value1,
             onValueChange = { value1 = it },
             label = { Text("Valor 1") }
         )
         Spacer(modifier = Modifier.height(8.dp))
+        // Campo de texto para ingresar el valor 2
         TextField(
             value = value2,
             onValueChange = { value2 = it },
             label = { Text("Valor 2") }
         )
         Spacer(modifier = Modifier.height(8.dp))
+        // Campo de texto para ingresar el valor 3
         TextField(
             value = value3,
             onValueChange = { value3 = it },
             label = { Text("Valor 3") }
         )
         Spacer(modifier = Modifier.height(16.dp))
+        // Botón para mostrar todas las funciones
         Button(onClick = {
             try {
                 if (value1.isEmpty() || value2.isEmpty() || value3.isEmpty()) {
@@ -113,15 +128,18 @@ fun BarChartScreen() {
             Text("Mostrar TODAS LAS FUNCIONES")
         }
         Spacer(modifier = Modifier.height(16.dp))
+        // Mostrar mensaje de error si existe
         errorMessage?.let {
             Text(text = it, color = Color.Red)
         }
         Spacer(modifier = Modifier.height(16.dp))
+        // Menú desplegable para elegir una función
         DropdownMenuButton(options = options, selectedOption = selectedOption) { option ->
             selectedOption = option
             showCharts = false
         }
         Spacer(modifier = Modifier.height(16.dp))
+        // Mostrar gráficos según la opción seleccionada
         if (showCharts) {
             // Mostrar todas las funciones
             Text(text = "FUNCION 1", style = MaterialTheme.typography.headlineMedium)
@@ -227,6 +245,7 @@ fun BarChartScreen() {
         }
     }
 
+    // Mostrar diálogo de error si showDialog es true
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
@@ -241,14 +260,17 @@ fun BarChartScreen() {
     }
 }
 
+// Función composable para el menú desplegable
 @Composable
 fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSelected: (String) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
 
     Box {
+        // Botón para mostrar el menú desplegable
         Button(onClick = { expanded = true }) {
             Text(text = "Elegir gráfico")
         }
+        // Menú desplegable
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
@@ -266,11 +288,15 @@ fun DropdownMenuButton(options: List<String>, selectedOption: String, onOptionSe
     }
 }
 
+// Función composable para la pantalla del gráfico de barras 2
 @Composable
 fun BarChartScreen2(values: List<Float>, colors: List<Color>) {
+    // Etiquetas para el eje X
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
+    // Etiqueta para el eje Y
     val yLabel = "Valores"
 
+    // Llamar a la función DrawBarChart para dibujar el gráfico de barras
     DrawBarChart(
         values = values,
         xLabels = xLabels,
@@ -280,11 +306,15 @@ fun BarChartScreen2(values: List<Float>, colors: List<Color>) {
     )
 }
 
+// Función composable para la pantalla del gráfico de líneas
 @Composable
 fun LineChartScreen(values: List<Float>, colors: List<Color>) {
+    // Etiquetas para el eje X
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
+    // Etiqueta para el eje Y
     val yLabel = "Valores"
 
+    // Llamar a la función DrawLineChart para dibujar el gráfico de líneas
     DrawLineChart(
         values = values,
         xLabels = xLabels,
@@ -293,35 +323,45 @@ fun LineChartScreen(values: List<Float>, colors: List<Color>) {
     )
 }
 
+// Función composable para la pantalla del gráfico de pastel
 @Composable
 fun PieChartScreen(values: List<Float>, colors: List<Color>) {
+    // Llamar a la función DrawPieChart para dibujar el gráfico de pastel
     DrawPieChart(
         values = values,
         colors = colors
     )
 }
 
+// Función composable para la pantalla del gráfico de dona
 @Composable
 fun CircleChartScreen(values: List<Float>, colors: List<Color>) {
+    // Llamar a la función DrawDonutChart para dibujar el gráfico de dona
     DrawDonutChart(
         values = values,
         colors = colors
     )
 }
 
+// Función composable para la pantalla del gráfico de media luna
 @Composable
 fun HalfCircleChartScreen(values: List<Float>, colors: List<Color>) {
+    // Llamar a la función DrawHalfCircleChart para dibujar el gráfico de media luna
     DrawHalfCircleChart(
         values = values,
         colors = colors
     )
 }
 
+// Función composable para la pantalla del gráfico de área
 @Composable
 fun AreaChartScreen(values: List<Float>, colors: List<Color>) {
+    // Etiquetas para el eje X
     val xLabels = listOf("valor 1", "valor 2", "valor 3")
+    // Etiqueta para el eje Y
     val yLabel = "Valores"
 
+    // Llamar a la función DrawAreaChart para dibujar el gráfico de área
     DrawAreaChart(
         values = values,
         xLabels = xLabels,

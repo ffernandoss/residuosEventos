@@ -17,21 +17,26 @@ fun DrawBarChart(
     barColors: List<Color>,
     showValues: Boolean = true
 ) {
+    // Obtener el valor máximo de la lista de valores
     val maxValue = values.maxOrNull() ?: 0f
+    // Definir el ancho de las barras y el espacio entre ellas
     val barWidth = 50.dp
     val barSpacing = 20.dp
+    // Definir el color y el grosor de los ejes
     val axisColor = Color.Black
     val axisStrokeWidth = 4f
 
+    // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
         .fillMaxWidth()
         .height(300.dp)
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
-        val barHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
+        // Factor de altura de las barras, añadiendo un poco de padding
+        val barHeightFactor = canvasHeight / (maxValue + 10)
 
-        // Draw Y axis
+        // Dibujar el eje Y
         drawLine(
             color = axisColor,
             start = androidx.compose.ui.geometry.Offset(0f, 0f),
@@ -39,7 +44,7 @@ fun DrawBarChart(
             strokeWidth = axisStrokeWidth
         )
 
-        // Draw X axis
+        // Dibujar el eje X
         drawLine(
             color = axisColor,
             start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
@@ -47,7 +52,7 @@ fun DrawBarChart(
             strokeWidth = axisStrokeWidth
         )
 
-        // Draw Y axis label
+        // Dibujar la etiqueta del eje Y
         drawContext.canvas.nativeCanvas.drawText(
             yLabel,
             10f,
@@ -58,6 +63,7 @@ fun DrawBarChart(
             }
         )
 
+        // Dibujar las barras y las etiquetas del eje X
         values.forEachIndexed { index, value ->
             val barHeight = value * barHeightFactor
             val barX = index * (barWidth.toPx() + barSpacing.toPx())
@@ -68,7 +74,7 @@ fun DrawBarChart(
             )
 
             if (showValues) {
-                // Draw value labels above bars
+                // Dibujar las etiquetas de los valores encima de las barras
                 drawContext.canvas.nativeCanvas.drawText(
                     value.toString(),
                     barX + barWidth.toPx() / 2,
@@ -81,7 +87,7 @@ fun DrawBarChart(
                 )
             }
 
-            // Draw X axis labels with smaller text size
+            // Dibujar las etiquetas del eje X con un tamaño de texto más pequeño
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
                 barX + barWidth.toPx() / 2,
