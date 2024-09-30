@@ -110,6 +110,12 @@ fun BarChartScreen() {
             CircleChartScreen(
                 values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
             )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "FUNCION 6", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
+            HalfCircleChartScreen(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
+            )
         }
     }
 }
@@ -156,6 +162,15 @@ fun PieChartScreen(values: List<Float>) {
 fun CircleChartScreen(values: List<Float>) {
     val colors = listOf(Color.Red, Color.Green, Color.Blue)
     DrawDonutChart(
+        values = values,
+        colors = colors
+    )
+}
+
+@Composable
+fun HalfCircleChartScreen(values: List<Float>) {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+    DrawHalfCircleChart(
         values = values,
         colors = colors
     )
@@ -390,5 +405,30 @@ fun DrawDonutChart(
             radius = holeRadius,
             center = center
         )
+    }
+}
+
+@Composable
+fun DrawHalfCircleChart(
+    values: List<Float>,
+    colors: List<Color>
+) {
+    val total = values.sum()
+    var startAngle = 0f
+
+    Canvas(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+    ) {
+        values.forEachIndexed { index, value ->
+            val sweepAngle = (value / total) * 180f // Only 180 degrees
+            drawArc(
+                color = colors[index % colors.size],
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = true
+            )
+            startAngle += sweepAngle
+        }
     }
 }
