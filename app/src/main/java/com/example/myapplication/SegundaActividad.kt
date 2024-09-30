@@ -98,6 +98,12 @@ fun BarChartScreen() {
             LineChartScreen(
                 values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
             )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "FUNCION 4", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
+            PieChartScreen(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
+            )
         }
     }
 }
@@ -128,6 +134,15 @@ fun LineChartScreen(values: List<Float>) {
         xLabels = xLabels,
         yLabel = yLabel,
         lineColor = lineColor
+    )
+}
+
+@Composable
+fun PieChartScreen(values: List<Float>) {
+    val colors = listOf(Color.Red, Color.Green, Color.Blue)
+    DrawPieChart(
+        values = values,
+        colors = colors
     )
 }
 
@@ -301,6 +316,31 @@ fun DrawLineChart(
                     textAlign = android.graphics.Paint.Align.CENTER
                 }
             )
+        }
+    }
+}
+
+@Composable
+fun DrawPieChart(
+    values: List<Float>,
+    colors: List<Color>
+) {
+    val total = values.sum()
+    var startAngle = 0f
+
+    Canvas(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+    ) {
+        values.forEachIndexed { index, value ->
+            val sweepAngle = (value / total) * 360f
+            drawArc(
+                color = colors[index % colors.size],
+                startAngle = startAngle,
+                sweepAngle = sweepAngle,
+                useCenter = true
+            )
+            startAngle += sweepAngle
         }
     }
 }
