@@ -92,6 +92,12 @@ fun BarChartScreen() {
             BarChartScreen2(
                 values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
             )
+            Spacer(modifier = Modifier.height(32.dp))
+            Text(text = "FUNCION 3", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(16.dp))
+            LineChartScreen(
+                values = listOf(value1.toFloat(), value2.toFloat(), value3.toFloat())
+            )
         }
     }
 }
@@ -108,6 +114,20 @@ fun BarChartScreen2(values: List<Float>) {
         yLabel = yLabel,
         barColor = barColor,
         showValues = false
+    )
+}
+
+@Composable
+fun LineChartScreen(values: List<Float>) {
+    val xLabels = listOf("valor 1", "valor 2", "valor 3")
+    val yLabel = "Valores"
+    val lineColor = Color.Red
+
+    DrawLineChart(
+        values = values,
+        xLabels = xLabels,
+        yLabel = yLabel,
+        lineColor = lineColor
     )
 }
 
@@ -187,6 +207,93 @@ fun DrawBarChart(
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
                 barX + barWidth.toPx() / 2,
+                canvasHeight + 40,
+                android.graphics.Paint().apply {
+                    textSize = 40f
+                    color = android.graphics.Color.BLACK
+                    textAlign = android.graphics.Paint.Align.CENTER
+                }
+            )
+        }
+    }
+}
+
+@Composable
+fun DrawLineChart(
+    values: List<Float>,
+    xLabels: List<String>,
+    yLabel: String,
+    lineColor: Color
+) {
+    val maxValue = values.maxOrNull() ?: 0f
+    val axisColor = Color.Black
+    val axisStrokeWidth = 4f
+    val pointRadius = 8f
+
+    Canvas(modifier = Modifier
+        .fillMaxWidth()
+        .height(300.dp)
+    ) {
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+        val pointSpacing = canvasWidth / (values.size - 1)
+        val pointHeightFactor = canvasHeight / (maxValue + 10) // Adding some padding
+
+        // Draw Y axis
+        drawLine(
+            color = axisColor,
+            start = androidx.compose.ui.geometry.Offset(0f, 0f),
+            end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
+            strokeWidth = axisStrokeWidth
+        )
+
+        // Draw X axis
+        drawLine(
+            color = axisColor,
+            start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
+            end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
+            strokeWidth = axisStrokeWidth
+        )
+
+        // Draw Y axis label
+        drawContext.canvas.nativeCanvas.drawText(
+            yLabel,
+            10f,
+            20f,
+            android.graphics.Paint().apply {
+                textSize = 40f
+                color = android.graphics.Color.BLACK
+            }
+        )
+
+        // Draw lines between points and points themselves
+        values.forEachIndexed { index, value ->
+            val currentX = index * pointSpacing
+            val currentY = canvasHeight - (value * pointHeightFactor)
+
+            if (index < values.size - 1) {
+                val nextX = (index + 1) * pointSpacing
+                val nextY = canvasHeight - (values[index + 1] * pointHeightFactor)
+
+                drawLine(
+                    color = lineColor,
+                    start = androidx.compose.ui.geometry.Offset(currentX, currentY),
+                    end = androidx.compose.ui.geometry.Offset(nextX, nextY),
+                    strokeWidth = axisStrokeWidth
+                )
+            }
+
+            // Draw point
+            drawCircle(
+                color = lineColor,
+                radius = pointRadius,
+                center = androidx.compose.ui.geometry.Offset(currentX, currentY)
+            )
+
+            // Draw X axis labels with smaller text size
+            drawContext.canvas.nativeCanvas.drawText(
+                xLabels[index],
+                currentX,
                 canvasHeight + 40,
                 android.graphics.Paint().apply {
                     textSize = 40f
