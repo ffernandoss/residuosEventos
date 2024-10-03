@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Tablas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,21 +6,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawLineChart(
+fun DrawBarChart(
     values: List<Float>,
     xLabels: List<String>,
     yLabel: String,
-    lineColors: List<Color>
+    barColors: List<Color>,
+    showValues: Boolean = true
 ) {
     // Obtener el valor máximo de la lista de valores
     val maxValue = values.maxOrNull() ?: 0f
-    // Factor de altura de la línea, añadiendo un poco de padding
-    val lineHeightFactor = 300.dp / (maxValue + 10)
+    // Definir el ancho de las barras y el espacio entre ellas
+    val barWidth = 50.dp
+    val barSpacing = 20.dp
+    // Definir el color y el grosor de los ejes
+    val axisColor = Color.Black
+    val axisStrokeWidth = 4f
 
     // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
@@ -29,21 +33,23 @@ fun DrawLineChart(
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
+        // Factor de altura de las barras, añadiendo un poco de padding
+        val barHeightFactor = canvasHeight / (maxValue + 10)
 
         // Dibujar el eje Y
         drawLine(
-            color = Color.Black,
+            color = axisColor,
             start = androidx.compose.ui.geometry.Offset(0f, 0f),
             end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            strokeWidth = 4f
+            strokeWidth = axisStrokeWidth
         )
 
         // Dibujar el eje X
         drawLine(
-            color = Color.Black,
+            color = axisColor,
             start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
             end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
-            strokeWidth = 4f
+            strokeWidth = axisStrokeWidth
         )
 
         // Dibujar la etiqueta del eje Y
@@ -57,34 +63,34 @@ fun DrawLineChart(
             }
         )
 
-        // Crear el camino de la línea
-        val path = Path().apply {
-            values.forEachIndexed { index, value ->
-                val lineHeight = value * lineHeightFactor.toPx()
-                val lineX = index * (canvasWidth / values.size)
-                if (index == 0) {
-                    moveTo(lineX, canvasHeight - lineHeight)
-                } else {
-                    lineTo(lineX, canvasHeight - lineHeight)
-                }
-            }
-        }
-
-        // Dibujar el camino de la línea
-        drawPath(
-            path = path,
-            color = lineColors.firstOrNull() ?: Color.Black,
-            style = androidx.compose.ui.graphics.drawscope.Stroke(width = 4.dp.toPx())
-        )
-
-        // Dibujar las etiquetas del eje X con un tamaño de texto más pequeño
+        // Dibujar las barras y las etiquetas del eje X
         values.forEachIndexed { index, value ->
-            val lineHeight = value * lineHeightFactor.toPx()
-            val lineX = index * (canvasWidth / values.size)
+            val barHeight = value * barHeightFactor
+            val barX = index * (barWidth.toPx() + barSpacing.toPx())
+            drawRect(
+                color = barColors[index],
+                topLeft = androidx.compose.ui.geometry.Offset(barX, canvasHeight - barHeight),
+                size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
+            )
 
+            if (showValues) {
+                // Dibujar las etiquetas de los valores encima de las barras
+                drawContext.canvas.nativeCanvas.drawText(
+                    value.toString(),
+                    barX + barWidth.toPx() / 2,
+                    canvasHeight - barHeight - 10,
+                    android.graphics.Paint().apply {
+                        textSize = 40f
+                        color = android.graphics.Color.BLACK
+                        textAlign = android.graphics.Paint.Align.CENTER
+                    }
+                )
+            }
+
+            // Dibujar las etiquetas del eje X con un tamaño de texto más pequeño
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
-                lineX + (canvasWidth / values.size) / 2,
+                barX + barWidth.toPx() / 2,
                 canvasHeight + 40,
                 android.graphics.Paint().apply {
                     textSize = 40f

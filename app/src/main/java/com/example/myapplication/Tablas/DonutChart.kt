@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Tablas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -6,10 +6,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawPieChart(
+fun DrawDonutChart(
     values: List<Float>,
     colors: List<Color>
 ) {
@@ -32,7 +33,8 @@ fun DrawPieChart(
                 color = colors[index], // Color del segmento
                 startAngle = startAngle, // Ángulo inicial del segmento
                 sweepAngle = sweepAngle, // Ángulo de barrido del segmento
-                useCenter = true // Usar el centro del círculo
+                useCenter = false, // No usar el centro del círculo
+                style = Stroke(width = 50.dp.toPx()) // Estilo del arco con un grosor de 50 dp
             )
             // Actualizar el ángulo inicial para el siguiente segmento
             startAngle += sweepAngle

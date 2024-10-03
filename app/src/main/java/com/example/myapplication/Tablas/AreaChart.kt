@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Tablas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,21 +10,16 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawBarChart(
+fun DrawAreaChart(
     values: List<Float>,
     xLabels: List<String>,
     yLabel: String,
-    barColors: List<Color>,
-    showValues: Boolean = true
+    areaColors: List<Color>
 ) {
     // Obtener el valor máximo de la lista de valores
     val maxValue = values.maxOrNull() ?: 0f
-    // Definir el ancho de las barras y el espacio entre ellas
-    val barWidth = 50.dp
-    val barSpacing = 20.dp
-    // Definir el color y el grosor de los ejes
-    val axisColor = Color.Black
-    val axisStrokeWidth = 4f
+    // Factor de altura del área, añadiendo un poco de padding
+    val areaHeightFactor = 300.dp / (maxValue + 10)
 
     // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
@@ -33,23 +28,21 @@ fun DrawBarChart(
     ) {
         val canvasWidth = size.width
         val canvasHeight = size.height
-        // Factor de altura de las barras, añadiendo un poco de padding
-        val barHeightFactor = canvasHeight / (maxValue + 10)
 
         // Dibujar el eje Y
         drawLine(
-            color = axisColor,
+            color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, 0f),
             end = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
-            strokeWidth = axisStrokeWidth
+            strokeWidth = 4f
         )
 
         // Dibujar el eje X
         drawLine(
-            color = axisColor,
+            color = Color.Black,
             start = androidx.compose.ui.geometry.Offset(0f, canvasHeight),
             end = androidx.compose.ui.geometry.Offset(canvasWidth, canvasHeight),
-            strokeWidth = axisStrokeWidth
+            strokeWidth = 4f
         )
 
         // Dibujar la etiqueta del eje Y
@@ -63,34 +56,22 @@ fun DrawBarChart(
             }
         )
 
-        // Dibujar las barras y las etiquetas del eje X
+        // Dibujar las áreas y las etiquetas del eje X
         values.forEachIndexed { index, value ->
-            val barHeight = value * barHeightFactor
-            val barX = index * (barWidth.toPx() + barSpacing.toPx())
-            drawRect(
-                color = barColors[index],
-                topLeft = androidx.compose.ui.geometry.Offset(barX, canvasHeight - barHeight),
-                size = androidx.compose.ui.geometry.Size(barWidth.toPx(), barHeight)
-            )
+            val areaHeight = value * areaHeightFactor.toPx()
+            val areaX = index * (canvasWidth / values.size)
 
-            if (showValues) {
-                // Dibujar las etiquetas de los valores encima de las barras
-                drawContext.canvas.nativeCanvas.drawText(
-                    value.toString(),
-                    barX + barWidth.toPx() / 2,
-                    canvasHeight - barHeight - 10,
-                    android.graphics.Paint().apply {
-                        textSize = 40f
-                        color = android.graphics.Color.BLACK
-                        textAlign = android.graphics.Paint.Align.CENTER
-                    }
-                )
-            }
+            // Dibujar el área
+            drawRect(
+                color = areaColors[index],
+                topLeft = androidx.compose.ui.geometry.Offset(areaX, canvasHeight - areaHeight),
+                size = androidx.compose.ui.geometry.Size(canvasWidth / values.size, areaHeight)
+            )
 
             // Dibujar las etiquetas del eje X con un tamaño de texto más pequeño
             drawContext.canvas.nativeCanvas.drawText(
                 xLabels[index],
-                barX + barWidth.toPx() / 2,
+                areaX + (canvasWidth / values.size) / 2,
                 canvasHeight + 40,
                 android.graphics.Paint().apply {
                     textSize = 40f

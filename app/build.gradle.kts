@@ -52,7 +52,8 @@ android {
 dependencies {
 
 
-        androidTestImplementation ("androidx.compose.ui:ui-test-junit4:<version>")
+        implementation(libs.androidx.appcompat)
+    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:<version>")
         debugImplementation ("androidx.compose.ui:ui-test-manifest:<version>")
 
     implementation(libs.androidx.core.ktx)
