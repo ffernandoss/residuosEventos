@@ -11,6 +11,7 @@ Pagina 2 Calendario
 Pagina 3 Mapa
 
 Utilizas Jetpack Compose para mostrar una imagen de un mapa con los puntos de reciclaje de Madrid.
+
 Importaciones: Se importan las librerías necesarias de Jetpack Compose para trabajar con imágenes, modificadores y vistas previas.
 
 Función MapaReciclajeMadrid: Es una función composable que carga y muestra una imagen desde los recursos drawable del proyecto. La imagen se escala para llenar todo el tamaño disponible del contenedor.
