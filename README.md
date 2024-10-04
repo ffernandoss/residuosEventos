@@ -9,6 +9,7 @@ Pagina 1 Pantalla de inicio
 Pagina 2 Calendario
 
 Pagina 3 Mapa
+
 Utilizas Jetpack Compose para mostrar una imagen de un mapa con los puntos de reciclaje de Madrid.
 Importaciones: Se importan las librerías necesarias de Jetpack Compose para trabajar con imágenes, modificadores y vistas previas.
 
