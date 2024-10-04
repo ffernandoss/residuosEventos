@@ -9,15 +9,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
-        <activity android:name=".Splash" android:exported="true">
+        <activity android:name=".Splash" android:exported="true"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Tablas.SegundaActividad" android:exported="false" />
-        <activity android:name=".Principio" android:exported="true"/>
-        <activity android:name=".MapaResiduos" android:exported="true" />
+        <activity
+            android:name=".Principio"
+            android:theme="@style/Theme.AppCompat">
+        </activity>
+        <activity
+            android:name=".MapaResiduos"
+            android:theme="@style/Theme.AppCompat" />
 
     </application>
 
