@@ -83,4 +83,7 @@ pagina1: es el inicio del programa y esta comformado por dos clases: Principio y
 
 la clase slash es una imagen de carga que se le enseña al usuario mientras carga el programa 
 
-la clase Principio es la pantalla de bienvenida del programa contiene un mensaje de bienvenida al usuario y un botón que al pulsarlo te envía al mapa de residuos.
+la clase Principio es la pantalla de bienvenida del programa contiene un mensaje de bienvenida al usuario y un botón que al pulsarlo te envía a la siguiente página.
+
+
+pagina 2: consiste en la clase calendario la cual muestra un calendario con la recogida de residuos y un boton que te envia a la siguiente página 
