@@ -1,14 +1,14 @@
-Pagina 1 echa por arturo lopez
-Pagina 2 echa por Rodirgo perez
-Pagina 3 echa por Roberto quiles
-Pagina 4 echa por Fernando Santamaria
+Pagina 1 hecha por arturo lopez
+Pagina 2 hecha por Rodirgo perez
+Pagina 3 hecha por Roberto quiles
+Pagina 4 hecha por Fernando Santamaria
 
 
-Pagina 1 Pantalla de inicio
+*Pagina 1 Pantalla de inicio*
 
-Pagina 2 Calendario
+*Pagina 2 Calendario*
 
-Pagina 3 Mapa
+*Pagina 3 Mapa*
 
 Utilizas Jetpack Compose para mostrar una imagen de un mapa con los puntos de reciclaje de Madrid.
 
@@ -18,7 +18,7 @@ Función MapaReciclajeMadrid: Es una función composable que carga y muestra una
 
 Función MapaReciclajeMadridPreview: Es una función de vista previa que permite ver cómo se verá el composable MapaReciclajeMadrid en el editor de diseño de Android Studio.
 
-Pagina 4 Graficas
+*Pagina 4 Graficas*
 pantalla compuesta por las clases AreaChart,BarChart,ColorPicker,DonutChart,HalfCircleChart,LineChart,PieChart,SegundaActividad
 
 AreaChart (es parecido al de barras pero es mas ancho):
