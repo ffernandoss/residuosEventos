@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Tablas
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

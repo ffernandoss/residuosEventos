@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Tablas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,14 +10,14 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun DrawDonutChart(
+fun DrawHalfCircleChart(
     values: List<Float>,
     colors: List<Color>
 ) {
     // Calcular el total de los valores
     val total = values.sum()
-    // Ángulo inicial para el primer segmento del gráfico
-    var startAngle = 0f
+    // Ángulo inicial para el primer segmento del gráfico (180 grados para un semicírculo)
+    var startAngle = 180f
 
     // Crear un Canvas con un ancho completo y una altura de 300 dp
     Canvas(modifier = Modifier
@@ -27,7 +27,7 @@ fun DrawDonutChart(
         // Iterar sobre los valores y sus índices
         values.forEachIndexed { index, value ->
             // Calcular el ángulo de barrido para cada segmento
-            val sweepAngle = (value / total) * 360f
+            val sweepAngle = (value / total) * 180f
             // Dibujar el arco para el segmento actual
             drawArc(
                 color = colors[index], // Color del segmento

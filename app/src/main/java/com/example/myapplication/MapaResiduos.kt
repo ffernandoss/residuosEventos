@@ -1,5 +1,8 @@
 package com.example.myapplication
 
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -8,6 +11,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.example.myapplication.R
+
+
+class MapaResiduos : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            MapaReciclajeMadrid()
+        }
+    }
+}
 
 // Función composable que muestra el mapa donde hay puntos de reciclaje de Madrid
 @Composable
