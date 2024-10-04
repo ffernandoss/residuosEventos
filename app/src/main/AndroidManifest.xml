@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Tablas.SegundaActividad" android:exported="false" />
-        <activity android:name=".Tablas.MainActivity" android:exported="true"/>
+        <activity android:name=".Principio" android:exported="true"/>
         <activity android:name=".MapaResiduos" android:exported="true" />
 
     </application>

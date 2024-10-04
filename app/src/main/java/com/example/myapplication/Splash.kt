@@ -13,7 +13,7 @@ class Splash : AppCompatActivity() {
 
         // Retraso de 3 segundos antes de iniciar la MainActivity
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Principio::class.java)
             startActivity(intent)
             finish()
         }, 3000)
