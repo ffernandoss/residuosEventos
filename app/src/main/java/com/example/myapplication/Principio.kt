@@ -43,7 +43,7 @@ fun Inicio(modifier: Modifier = Modifier) {
         Text(text = "Bienvenido Usuario", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            val intent = Intent(context, MapaResiduos::class.java)
+            val intent = Intent(context, MainCalendario::class.java)
             context.startActivity(intent)
         }) {
             Text(text = "Siguiente")
