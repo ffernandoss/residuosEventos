@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -11,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
-import com.example.myapplication.Tablas.MainScreen
+import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.MapaResiduos
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,17 +24,18 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Inicio (modifier = Modifier.padding(innerPadding)) {
+                    Inicio (modifier = Modifier.padding(innerPadding))
                     }
                 }
             }
         }
     }
-}
+
 
 
 @Composable
-fun Inicio(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
+fun Inicio(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Column(
         modifier = modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.Center,
@@ -40,7 +43,10 @@ fun Inicio(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
     ) {
         Text(text = "Bienvenido Usuario", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = onButtonClick) {
+        Button(onClick = {
+            val intent = Intent(context, MapaResiduos::class.java)
+            context.startActivity(intent)
+        }) {
             Text(text = "Siguiente")
         }
     }
@@ -50,6 +56,6 @@ fun Inicio(modifier: Modifier = Modifier, onButtonClick: () -> Unit) {
 @Composable
 fun MainScreenPreview() {
     MyApplicationTheme {
-        Inicio(onButtonClick = {  })
+        Inicio()
     }
 }
