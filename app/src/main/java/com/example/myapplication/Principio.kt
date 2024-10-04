@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.residuosEventos.MainCalendario
 
 class Principio : AppCompatActivity() {
 
@@ -49,13 +48,5 @@ fun Inicio(modifier: Modifier = Modifier) {
         }) {
             Text(text = "Siguiente")
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    MyApplicationTheme {
-        Inicio()
     }
 }

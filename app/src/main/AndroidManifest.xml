@@ -32,6 +32,9 @@
         <activity
             android:name=".MapaResiduos"
             android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".MainCalendario"
+            android:theme="@style/Theme.AppCompat" />
 
     </application>
 

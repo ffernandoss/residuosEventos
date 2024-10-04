@@ -1,7 +1,17 @@
+package com.example.myapplication
+
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.CalendarView
+import android.widget.EditText
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
+
 class MainCalendario : AppCompatActivity() {
     private val dateTextMap = HashMap<String, String>()
 
@@ -61,12 +71,18 @@ class MainCalendario : AppCompatActivity() {
             dialog.show()
         }
 
+        // Crear un Button para ir al mapa
         val button = Button(this).apply {
+            text = "Ir al Mapa"
             setOnClickListener {
                 val intent = Intent(this@MainCalendario, MapaResiduos::class.java)
                 startActivity(intent)
             }
         }
+
+        // Agregar el CalendarView, el TextView y el Button al LinearLayout
+        linearLayout.addView(calendarView)
+        linearLayout.addView(textView)
         linearLayout.addView(button)
 
         // Establecer el LinearLayout como el contenido de la actividad
