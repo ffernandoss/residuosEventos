@@ -3,12 +3,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/mapa_reciclaje_madrid"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
+        <!-- Splash Activity -->
         <activity android:name=".Splash" android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -16,23 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Tablas.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
+        <!-- Other Activities -->
+        <activity android:name=".Tablas.MainActivity" android:exported="true" />
         <activity android:name=".Tablas.SegundaActividad" android:exported="false" />
-        <activity
-            android:name=".Principio"
-            android:theme="@style/Theme.AppCompat">
-        </activity>
-        <activity
-            android:name=".MapaResiduos"
-            android:theme="@style/Theme.AppCompat" />
-
+        <activity android:name=".Principio" android:theme="@style/Theme.AppCompat" android:exported="true" />
+        <activity android:name=".MapaResiduos" android:theme="@style/Theme.AppCompat" android:exported="true" />
+        <activity android:name="com.example.residuosEventos.MainCalendario" android:theme="@style/Theme.AppCompat" android:exported="true" />
     </application>
 
 </manifest>

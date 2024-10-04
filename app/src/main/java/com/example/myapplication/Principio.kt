@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.residuosEventos.MainCalendario
 
 class Principio : AppCompatActivity() {
 
@@ -43,7 +44,7 @@ fun Inicio(modifier: Modifier = Modifier) {
         Text(text = "Bienvenido Usuario", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = {
-            val intent = Intent(context, MapaResiduos::class.java)
+            val intent = Intent(context, MainCalendario::class.java)
             context.startActivity(intent)
         }) {
             Text(text = "Siguiente")
