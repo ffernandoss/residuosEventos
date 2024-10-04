@@ -78,3 +78,9 @@ llama a la funcion DrawHalfCircleChart
 
 AreaChartScreen
 proporciona los nombres que se añadiran a la lista de valores del eje X y el nombre del eje Y, y llama a la funcion de DrawAreaChart
+
+pagina1: es el inicio del programa y esta comformado por dos clases: Principio y slash.
+
+la clase slash es una imagen de carga que se le enseña al usuario mientras carga el programa 
+
+la clase Principio es la pantalla de bienvenida del programa contiene un mensaje de bienvenida al usuario y un botón que al pulsarlo te envía al mapa de residuos.

@@ -51,10 +51,11 @@ android {
 
 dependencies {
 
+        implementation ("com.google.android.material:material:1.6.0")
 
-        implementation(libs.androidx.appcompat)
-    androidTestImplementation ("androidx.compose.ui:ui-test-junit4:<version>")
-        debugImplementation ("androidx.compose.ui:ui-test-manifest:<version>")
+    implementation(libs.androidx.appcompat)
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:<version>")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:<version>")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

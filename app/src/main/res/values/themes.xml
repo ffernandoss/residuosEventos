@@ -2,12 +2,4 @@
 <resources>
 
     <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar" />
-
-    <style name="Theme.CosasRodrigo" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Personaliza tu tema aquí -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/accentColor</item>
-    </style>
-
 </resources>
