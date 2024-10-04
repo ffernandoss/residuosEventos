@@ -14,9 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.myapplication.MapaResiduos
 
-class MainActivity : AppCompatActivity() {
+class Principio : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,20 +23,20 @@ class MainActivity : AppCompatActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Inicio (modifier = Modifier.padding(innerPadding))
-                    }
+                    Inicio(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
-
-
+}
 
 @Composable
 fun Inicio(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
